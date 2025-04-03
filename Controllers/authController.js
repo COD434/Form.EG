@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
-const { Token, sendVerification } = require("../views/emailfunc/emailSender");
+const { Token, sendVerification } = require("../prisma/config/email");
 const { prisma } = require("../prisma/config/validate");
 
 const registerValidations = [
