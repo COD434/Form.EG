@@ -1,0 +1,156 @@
+/* styles.css */
+:root {
+    --primary-color: #a8d8ea;  /* Soft sky blue */
+    --secondary-color: #aa96da; /* Lavender */
+    --accent-color: #fcbad3;    /* Pale pink */
+    --dark-color: #48466d;      /* Deep navy */
+    --light-color: #f8f9fa;     /* Off-white */
+    --text-color: #3d3d3d;      /* Dark gray */
+    --success-color: #a7c4bc;   /* Muted teal */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(135deg, var(--primary-color) 0%, var(--light-color) 100%);
+}
+
+.auth-form {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+
+.auth-form:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.auth-form h1 {
+    color: var(--dark-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.auth-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.auth-form label {
+    font-size: 0.95rem;
+    color: var(--dark-color);
+    margin-bottom: 0.3rem;
+    display: block;
+    font-weight: 500;
+}
+
+.auth-form input {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: rgba(168, 216, 234, 0.1);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(170, 150, 218, 0.2);
+}
+
+.auth-form button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.auth-form button:hover {
+    background-color: var(--dark-color);
+    transform: translateY(-2px);
+}
+
+.auth-form p {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.auth-form a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.auth-form a:hover {
+    color: var(--dark-color);
+    text-decoration: underline;
+}
+
+/* Style for invalid input fields */
+.is-invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff8f8 !important;
+}
+
+/* Style for error messages */
+.invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+/* Style for error container */
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+/* You might also want to style the labels for invalid fields */
+.is-invalid + label {
+    color: #dc3545;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .auth-form {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .auth-form h1 {
+        font-size: 1.5rem;
+    }
+}

@@ -112,6 +112,7 @@ body {
     color: var(--dark-color);
     text-decoration: underline;
 }
+
 /* Style for invalid input fields */
 .is-invalid {
     border-color: #dc3545 !important;
