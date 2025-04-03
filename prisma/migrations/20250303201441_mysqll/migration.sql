@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "role" "Role" NOT NULL DEFAULT 'BASIC',
+ALTER COLUMN "password" DROP NOT NULL,
+ALTER COLUMN "username" DROP NOT NULL;

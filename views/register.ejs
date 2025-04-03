@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/Styles.css">
+</head>
+<body>
+
+<div class="auth-form">
+    <h1>Create Account</h1>
+    <%if (Array.isArray(validationErrors) && validationErrors.length){%>
+    <div class="alert-danger error-container">
+    <%validationErrors.forEach(error => {%>
+    <div><%= error.msg%></div><%})%>
+    </div>
+    <%}%>
+    
+    <form action="/register" method="POST" >
+        <label>Username</label>
+        <input
+         type="text" 
+        required 
+        name="username"
+        value="<%= (typeof formData !== 'undefined' && formData.username) ? formData.username : '' %>"
+        class="<%= validationErrors && validationErrors.some(e => e.path === 'username') ? 'is-invalid' : '' %>" />
+<% if(Array.isArray(validationErrors)){%>
+<% validationErrors.filter(e => e.path === "username").forEach(err => {%>
+    <div class="invalid-feedback"><%=err.msg%></div>
+    
+<%});%>
+
+<%}%>
+            
+
+<label for="email">Email:</label>
+            <input 
+            type="text" 
+            name="email"
+            required
+            class="<%=validationErrors && validationErrors.some(e => e.path === "email") ? "is-invalid" : "" %>"
+            value="<%= (typeof formData !== 'undefined' && formData.email) ? formData.email : '' %>" 
+             />
+             <% if (Array.isArray(validationErrors)){%>
+                <%validationErrors.filter( e=> e.path === "email").forEach(err => {
+                    %>
+                    <div class = "invalid-feedback"><%err.msg%></div>
+                <%})%>
+             <%}%>
+
+            <label for="Password">Password:</label>
+            <input 
+            type="password" 
+            name="password"
+            required
+            value="<%= (typeof formData !== 'undefined' && formData.password) ? formData.password : '' %>"
+            class="<%=validationErrors && validationErrors.some(e => e.path === "password") ? "is-invalid" : "" %>"
+             />
+             <%if(validationErrors){
+                %>
+                <%validationErrors.filter (e => e.path === "password").forEach(err =>{%>
+<div class="invalid-feedback"><%err.msg%></div>
+                <%})%>
+             <%}%>
+       
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="/">Login here</a></p>
+</div>
+
+    
+</body>
+</html>
