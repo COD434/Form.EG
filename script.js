@@ -38,8 +38,8 @@ app.use(express.static(path.join(__dirname, "styles")));
   app.use(passport.session());
 
   // Security middleware
-  const { helmetConfig, loginLimiter } = setupSecurity();
-  app.use(helmetConfig);
+  const {  loginLimiter } = setupSecurity(app);
+
 
   // Routes
   app.use("/", shopRouter);

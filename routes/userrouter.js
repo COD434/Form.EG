@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router();
-
+const adminController = require ("../Controllers/whitelistController");
+const{dynamicWhitelist}= require("../prisma/config/security")
 
 router.get("/register",(req,res)=>{
     res.render("register",{
@@ -13,6 +14,9 @@ router.get("/register",(req,res)=>{
       email:[]
     })
   })
+  router.post("/whitelist/add",adminController.addIP);
+  router.post("/whitelist/remove",adminController.removeIP);
+  router.get("/whitelist/list",adminController.listIP)
   
 
 module.exports = router;
