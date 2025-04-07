@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, "styles")));
   // Error handling
   app.use((err, req, res, next) => {
     console.error("Global error handler:", err);
-    res.status(500).render("sorry404", { message: "Something went wrong" });
+    res.status(500).send({message:"error"})
   });
 
   // Start server
