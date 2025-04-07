@@ -3,6 +3,9 @@ const app = express()
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const {redisClient} =require ("./redis")
+//const redis = require ("redis");
+//const {RateLimiterRedis} = require("rate-limiter-flexible");
+
 
 const dynamicWhiteList={
   isAllowed:async (ip)=>{
@@ -39,24 +42,33 @@ const dynamicWhiteList={
 const setupSecurity = () => {
   const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 6,
+    max: 10,
     message: "Too many login attempts from this IP,please try again later",
     standardHeaders:true,
     legacyHeaders:false,
-    skipSuccessfulRequests:true
+    skipSuccessfulRequests:false,
+    keyGenerator:(req)=>{
+      return req.ip + (req.body.username || req.body.email);
+    },
+    handler:(req,res)=>{
+      res.status(429).json({
+        messag:"Too many login attempts,Please try again later",
+        retryAfter:`${Math.ceil(this.windowMs/ 1000)} seconds`
+      })
+    }
   });
 
   const cspDirectives = {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'"],
-    styleSrc: ["'self'","'unsafe-inline'"],
+    scriptSrc: ["'self'","'unsafe-inline'", "trusted-cdn.com"],
+    styleSrc: ["'self'"],
     imgSrc: ["'self'", "data:","trusted-cdn.com"],
     fontSrc: ["'self'", "trusted-fonts.com"],
     connectSrc: ["'self'","api.trusted-domain.com"],
     frameSrc: ["'none'"],
     objectSrc: ["'none'"],
     upgradeInsecureRequests: [],
-    reportUri:"/csp-violention-report"
+    reportUri:"/csp-violation-report"
   };
 
   const securityHeaders= [
