@@ -79,8 +79,20 @@ const register = async (req, res) => {
 };
 
 const loginValidations = [
-  body("email").isEmail().normalizeEmail().withMessage("Invalid email"),
-  body("password").trim().escape().notEmpty().withMessage("Password is required")
+  body("email").isEmail().normalizeEmail().withMessage("Invalid email").bail(),
+  body("password").trim().bail().notEmpty().withMessage("Password is required"),
+body("username").optional().isLength({min: 5}).withMessage("Username must have atleast 5 characters"),
+  
+(req,res,next)=>{
+    const errors= validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(400).json({
+        success:false,
+        errors:errors.array()
+      })
+    }
+    next()
+  }
 ];
 
 const login = async (req, res) => {
@@ -106,7 +118,7 @@ values:{email,username}})
      
     }
 
-    res.render("dashboard");
+    res.render("dashBoard");
   } catch (err) {
     res.status(400).render("login", { message: "Invalid email or password" }),
     email
