@@ -1,7 +1,125 @@
 const bcrypt = require("bcrypt");
+
+
 const { body, validationResult } = require("express-validator");
 const { Token, sendVerification } = require("../prisma/config/email");
 const { prisma } = require("../prisma/config/validate");
+const {SendResetPasswordOTP,genOTP} = require("../prisma/config/Resetemail");
+
+
+const requestPassword = async(req, res)=>{
+  const{email}= req.body;
+
+try{
+  const user = await prisma.user.findFirst({where:{email}
+  
+  
+  })
+  if(!user){
+    return res.status(400).render("forgotPass",{
+      error:"No account found with that email address"
+    })
+  }
+  const resetToken =genOTP();
+  const resetExpires= new Date(Date.now() + 10 * 60 * 1000)
+
+  await prisma.user.update({
+    where:{email},
+    data:{
+      resetToken,
+      resetExpires
+    }
+  });
+  await SendResetPasswordOTP(email, resetToken)
+
+  return res.render("reset-password-otp",{
+    email,
+   error:"",
+    success:"Password reset OTP has been sent to you email"
+  })
+}catch(err){
+  console.error("password reset error:",err);
+  return res.status(500).json({
+    error:"Error sending password reset OTP. Please try again."
+  });
+}
+}
+
+const verifyResetOTP = async (req,res)=>{
+  const{email, otp}= req.body;
+  try{
+    const user = await prisma.user.findFirst({
+      where:{
+        email,
+        resetToken:otp,
+        resetExpires:{gt:new Date()}
+      }
+    })
+    if(!user){
+      return res.redirect("reset-password-otp",{
+        email,
+success,     
+        error:"Invalid or expires OTP.Please try again."
+      })
+    }
+    return res.redirect("update-password",{
+      email,
+      otp,
+      error:"",
+      success:"OTP verified. please enter your new password."
+    })
+  }catch(err){
+    console.error("OTP verification error:",err);
+    return res.redirect(400,"/reset-password-otp",{
+      email,
+     success:"",	    
+      error: "Error verifying OTP .please try again"
+    })
+  }
+}
+
+const UpdatePassword = async(req,res)=>{
+  const {email,password,otp}=req.body;
+	const hashed = await bcrypt.hash(password,10)
+  try{
+    const user = await prisma.user.findFirst({
+      where:{
+        email,
+        resetToken:otp,
+        resetExpires:{gt: new Date()}
+      }
+    })
+    if(!user){
+      return res.render("update-password",{
+        email,
+        otp,
+	success:"",
+        error:"Invalid or expired OTP.Please request a new one."
+      })
+    }
+
+    await prisma.user.update({
+      where:{email},
+      data:{
+        password:hashed,
+        resetToken:null,
+        resetExpires:null
+        }
+    })
+    return res.render("login",{
+      successMessage:"Password updated successfully.Please login with tou new password"
+    })
+  }catch(err){
+    console.error("Password update error:",err);
+    return res.render("update-password",{
+      email,
+      otp,
+success:"",
+      error:"error updating password.Please try again"
+    })
+  }
+}
+
 
 const registerValidations = [
   body("email")
@@ -171,5 +289,8 @@ module.exports = {
   register,
   loginValidations,
   login,
-  verifyEmail
+  verifyEmail,
+  verifyResetOTP,
+  requestPassword,
+  UpdatePassword
 };
