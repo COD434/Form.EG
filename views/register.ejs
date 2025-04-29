@@ -18,6 +18,7 @@
     <%}%>
 
     <form action="/register" method="POST" >
+<input type="hidden" name="_csrf" value="<%=csrfToken%>">
         <label>Username</label>
         <input
          type="text" 
@@ -54,15 +55,14 @@
             name="password"
             required
             value="<%= (typeof formData !== 'undefined' && formData.password) ? formData.password : '' %>"
-            class="<%=validationErrors && validationErrors.some(e => e.path === "password") ? "is-invalid" : "" %>"
+            class="<%=validationErrors && validationErrors.some(e => e.path === 'password') ? 'is-invalid' : '' %>"
              />
              <%if(validationErrors){
                 %>
-                <%validationErrors.filter (e => e.path === "password").forEach(err =>{%>
+		<%validationErrors.filter (e => e.path === "password").forEach(err =>{%>
 <div class="invalid-feedback"><%err.msg%></div>
                 <%})%>
              <%}%>
-
         <button type="submit">Register</button>
     </form>
     <p>Already have an account? <a href="/">Login here</a></p>
