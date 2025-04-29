@@ -6,6 +6,16 @@ const {redisClient} =require ("./redis")
 //const redis = require ("redis");
 //const {RateLimiterRedis} = require("rate-limiter-flexible");
 
+const csrf =require ("csurf");                                                   
+                                                                                 
+                                                                                 
+const csrfProtection = csrf({cookie:{                                            
+secure:process.env.NODE_ENV === "production",                                    
+httpOnly:true,                                                                   
+sameSite:"strict"                                                                
+}                                                                                
+})                                                                               
+            
 
 const dynamicWhiteList={
   isAllowed:async (ip)=>{
@@ -39,10 +49,26 @@ const dynamicWhiteList={
     };
   }
 };
+const otpLimiter=rateLimit({
+	windowMs:15* 60 *100,
+        limit:2,
+        legacyHeaders:true,
+        standardHeaders:true,
+	handler:(req,res)=>{
+		const retryAfter= Math.ceil(req.rateLimit.resetTime / 100000000000)
+
+    req.session.rateLimit={
+      retryAfter,
+      message:`Too many requests!.try again in ${retryAfter} seconds`
+    }
+		res.status(429).redirect("/waitSceen");
+	}
+})
+
 const setupSecurity = () => {
   const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10,
+    limit: 10,
     message: "Too many login attempts from this IP,please try again later",
     standardHeaders:true,
     legacyHeaders:false,
@@ -52,7 +78,7 @@ const setupSecurity = () => {
     },
     handler:(req,res)=>{
       res.status(429).json({
-        messag:"Too many login attempts,Please try again later",
+        message:"Too many login attempts,Please try again later",
         retryAfter:`${Math.ceil(this.windowMs/ 1000)} seconds`
       })
     }
@@ -98,4 +124,4 @@ return{
   };
 };
 
-module.exports = { setupSecurity,dynamicWhiteList };
+module.exports = { csrfProtection,setupSecurity,dynamicWhiteList,otpLimiter };
