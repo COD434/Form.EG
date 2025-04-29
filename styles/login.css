@@ -1,12 +1,12 @@
 /* styles.css */
 :root {
-    --primary-color: #a8d8ea;  /* Soft sky blue */
-    --secondary-color: #aa96da; /* Lavender */
-    --accent-color: #fcbad3;    /* Pale pink */
-    --dark-color: #48466d;      /* Deep navy */
-    --light-color: #f8f9fa;     /* Off-white */
-    --text-color: #3d3d3d;      /* Dark gray */
-    --success-color: #a7c4bc;   /* Muted teal */
+    --primary-color: #a8d8ea;  
+        --secondary-color: #aa96da;
+    --accent-color: #fcbad3;  
+    --dark-color: #48466d;      
+   --light-color: #f8f9fa;     
+   --text-color: #3d3d3d;      
+    --success-color: #a7c4bc;   
 }
 
 body {
@@ -22,7 +22,10 @@ body {
     min-height: 100vh;
     background-image: linear-gradient(135deg, var(--primary-color) 0%, var(--light-color) 100%);
 }
-
+.planet {
+display:flex;
+justify-content:center;
+}
 .auth-form {
     background-color: white;
     padding: 2.5rem;
@@ -113,13 +116,13 @@ body {
     text-decoration: underline;
 }
 
-/* Style for invalid input fields */
+
 .is-invalid {
     border-color: #dc3545 !important;
     background-color: #fff8f8 !important;
 }
 
-/* Style for error messages */
+
 .invalid-feedback {
     width: 100%;
     margin-top: 0.25rem;
@@ -127,7 +130,7 @@ body {
     color: #dc3545;
 }
 
-/* Style for error container */
+
 .alert-danger {
     color: #721c24;
     background-color: #f8d7da;
@@ -138,12 +141,12 @@ body {
     border-radius: 0.25rem;
 }
 
-/* You might also want to style the labels for invalid fields */
+
 .is-invalid + label {
     color: #dc3545;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 480px) {
     .auth-form {
         padding: 1.5rem;
@@ -154,3 +157,17 @@ body {
         font-size: 1.5rem;
     }
 }
+    .earth {
+      width: 200px;
+      animation: spin 20s linear infinite;
+      justify-content:2em;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
