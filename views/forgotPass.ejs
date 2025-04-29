@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/forgot.css">
+
+</head>
+<body>
+	<div class="galaxy" id="galaxy"></div>
+	<div class=auth-form>
+    <h1>Forgot Password</h1>
+    <form action="/request-password-reset" method="POST">
+	    <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+        <label>Email:</label>
+        <input type="email" name="email" required/> 
+<button type="submit">Send OTP</button>
+    </form>
+	</div>
+</body>
+</html>
+
+  <script>
+    const galaxy = document.getElementById("galaxy");
+    const numStars = 1000;
+    const arms = 5;
+
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+
+      
+      const distance = Math.pow(Math.random(), 0.5) * 250 + 30; 
+      const armAngle = (i % arms) * (360 / arms);
+      const angle = armAngle + distance * 0.3 + (Math.random() - 0.5) * 30;
+
+      const offsetY = (Math.random() - 0.5) * distance * 0.15;
+      const speed = 20 + (distance / 250) * 80; 
+
+      star.style.setProperty("--distance", `${distance}px`);
+      star.style.animationDuration = `${speed}s`;
+      star.style.transform = `rotate(${angle}deg) translateX(${distance}px) rotate(-${angle}deg) translateY(${offsetY}px)`;
+
+      galaxy.appendChild(star);
+    }
+  </script>
