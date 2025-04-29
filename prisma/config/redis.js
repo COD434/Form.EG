@@ -32,6 +32,7 @@ const setupRedis = async () => {
   });
 
   return { redisClient, redisStore };
-};
+}
+
 
 module.exports = setupRedis ;
