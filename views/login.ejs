@@ -8,16 +8,16 @@
 </head>
 <body>
     <div class="auth-form">
+
         <h1>Login</h1>
-        
-        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
-            <div class="alert-danger">
-                <% errors.forEach(error => { %>
-                    <p><%= error.msg %></p>
-                <% }); %>
-            </div>
-        <% } %>
-        
+	<div class="planet">
+	<svg class="earth" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="256" cy="256" r="256" fill="#1e90ff" /> 
+    <path d="M200,150 l40,20 l20,30 l-10,20 l-30,-10 l-20,20 l-30,-10 l-10,-30 l30,-40 z" fill="#2ecc71" />
+    <path d="M300,250 l20,10 l20,30 l-10,20 l-30,0 l-10,-20 l-10,-30 z" fill="#2ecc71" />
+    <path d="M120,280 l30,20 l10,10 l-10,10 l-30,0 l-10,-10 l10,-20 z" fill="#2ecc71" />
+  </svg>
+	</div>
         <form action="/login" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -68,6 +68,7 @@
         </form>
         
         <p class="auth-link">Don't have an account? <a href="/register">Register here</a></p>
+        <p>Dont rememmber? <a href="/forgotPass">Forgot password</a></p>   
     </div>
 </body>
 </html>
