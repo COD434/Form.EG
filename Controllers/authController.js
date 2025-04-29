@@ -1,13 +1,11 @@
 const bcrypt = require("bcrypt");
-
-
 const { body, validationResult } = require("express-validator");
 const { Token, sendVerification } = require("../prisma/config/email");
 const { prisma } = require("../prisma/config/validate");
 const {SendResetPasswordOTP,genOTP} = require("../prisma/config/Resetemail");
+const {otpLimiter}= require("../prisma/config/security");
 
-
-const requestPassword = async(req, res)=>{
+const requestPassword = async(req, res,next)=>{
   const{email}= req.body;
 
 try{
@@ -16,8 +14,8 @@ try{
   
   })
   if(!user){
-    return res.status(400).render("forgotPass",{
-      error:"No account found with that email address"
+    return res.status(400).render("login",{
+      error:"No account found with that Number was found"
     })
   }
   const resetToken =genOTP();
@@ -37,6 +35,7 @@ try{
    error:"",
     success:"Password reset OTP has been sent to you email"
   })
+  
 }catch(err){
   console.error("password reset error:",err);
   return res.status(500).json({
@@ -46,9 +45,9 @@ try{
 }
 
 const verifyResetOTP = async (req,res)=>{
-  const{email, otp}= req.body;
+const{email, otp}= req.body;
   try{
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where:{
         email,
         resetToken:otp,
@@ -56,13 +55,13 @@ const verifyResetOTP = async (req,res)=>{
       }
     })
     if(!user){
-      return res.redirect("reset-password-otp",{
+      return res.render("reset-password-otp",{
         email,
-success,     
-        error:"Invalid or expires OTP.Please try again."
+	success:"",
+        error:"Invalid or expired OTP.Please try again."
       })
-    }
-    return res.redirect("update-password",{
+	    }
+    return res.redirect(200,"/update-password",{
       email,
       otp,
       error:"",
@@ -93,7 +92,7 @@ const UpdatePassword = async(req,res)=>{
       return res.render("update-password",{
         email,
         otp,
-	success:"",
+	      success:"",
         error:"Invalid or expired OTP.Please request a new one."
       })
     }
@@ -151,7 +150,8 @@ const registerValidations = [
     .trim()
     .escape()
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters long")
+    .withMessage("Password must be at least 8 characters long"),
+	
 ];
 
 const register = async (req, res) => {
@@ -168,7 +168,7 @@ const register = async (req, res) => {
     const verifyToken = Token();
     const verifyExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     const login = await prisma.user.create({
       data: {
         email,
@@ -220,7 +220,7 @@ const login = async (req, res) => {
     const user = await prisma.user.findFirst({ where: { email } });
     if (!user) {
       return res.status(400).render("login", { errors:[{param: "email",
-    msg:"Account not found with this email.please try again",
+    msg:" Email not Found. Want to register?",
   }],
   values:{email,username} 
 });
