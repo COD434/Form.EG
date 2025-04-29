@@ -19,17 +19,15 @@ const Token = ()=>{
 
 
 const sendVerification = async (email, token)=>{
-    const verifictaionUrl = `${process.env.BASE_URL}/verify-email?token=${token}`
+    const verificationUrl = `${process.env.BASE_URL}/verify-email?token=${token}`
 const mailOptions={
     from:` "Karabo" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: "Please verify your email address",
     html:`
     <div style = "font-family: Arial,sans-serif;max-width: 600px; margin:0 auto">
-    <h1>I LOVE YOU
+    <h1>Thank you for try this out here's your  verification url ${verificationUrl}</h1>
     
-    <p> YOU ARE THE BEST NEVER FORGET THAT</p>
-    <p>PS CONGRATS ON REACHING R12K TODAY!<p>
     </div>`
 };
 try{
