@@ -1,5 +1,14 @@
-Secure User Authentication System (Node.js + Express + Prisma)
+
+
+This  is a Secure User Authentication System (Node.js + Express + Prisma)
 A production-grade authentication system with security-first design, implementing OWASP best practices for secure user management, session handling, and API protection.
+
+Tech Stack used:
+Nodejs
+Expressjs
+javascript
+Redis
+Postgresql
 
 🛡️ Security Highlights (For Security Specialists)
 1. Authentication & Session Security
