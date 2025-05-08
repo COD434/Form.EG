@@ -1,4 +1,4 @@
-
+Hi I'm the SBD(Security-Backend-Developer)
 
 This  is a Secure User Authentication System (Node.js + Express + Prisma)
 A production-grade authentication system with security-first design, implementing OWASP best practices for secure user management, session handling, and API protection.
@@ -9,7 +9,7 @@ Nodejs,
 
 Expressjs,
 
-javascript,
+javascript(will be migrating to TypeScript),
 
 Redis,
 
