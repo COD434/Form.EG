@@ -2,7 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../Downloads/themeforest-OlGBgblf-gerold-personal-portfolio-tailwind-css-template"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"typescript.tsdk": "node_modules/typescript/lib"
+	}
 }

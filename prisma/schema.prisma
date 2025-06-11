@@ -17,13 +17,20 @@ model User {
   email               String    @unique
   password            String
   username            String   @unique
-  role                Role      @default(BASIC)
+  role                Role      @default(USER)
   isVerified          Boolean @default(false)
   verifyToken         String?
   verifyExpires       DateTime?
+  resetToken          String?
+  tokenExpires        DateTime @default(now())
+  updatedAt           DateTime @default(now())
+  resetExpires        DateTime?
+  otp                 String?
+  otpExpiration       DateTime @default(now())
+  phoneNumber         String?  @unique
 }
 enum Role{
-  BASIC
+  USER
   ADMIN
 
 }

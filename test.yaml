@@ -1,0 +1,21 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+  - duration: 10
+    arrivalRate: 5
+    http:
+      followRedirects: false
+    defaults:
+      headers:
+        Content-Type: "application/json"
+
+scenarios:
+  - name: "Login Rate Limiter Test"
+    flow:
+      - post:
+           url: "/login"
+           json:
+             username: "{{ testuser }}"
+             password: "{{ 20000812Hunnids#@ }}"
+             email: "{{ seeisakarabo1@gmail.com }}"
+           
