@@ -7,6 +7,15 @@ This project is a secure, production-ready Node.js API designed with modern secu
 📌 Built and maintained by a backend security engineer with a focus on API security, monitoring, and client-readiness.
 
 
+
+📫 Postman Collection
+
+Test the full API using the provided in the "Postman-collections" directory.
+
+- Auth routes (register, login, token refresh)
+- Rate-limited endpoints (OTP, login)
+- Also test ADMIN endpoint
+
 🔐 Key Features
 
 * JWT Authentication: Secure, stateless user sessions
@@ -43,11 +52,16 @@ rate_limits_allowed / rate_limits_blocked
 
 business_kpi_active_users – Active session count
 
+
+
+
 Visual Assets:
 
 ✅ Pre-built Grafana dashboards (JSON exports in grafana-dashboards/)
 
 ✅ Sample screenshots and insights in /metrics/README.md
+
+
 
 🧪 Testing
 
@@ -63,25 +77,44 @@ Used to simulate bursts for rate limiter stress-testing
 
 Results saved in artillery-results/
 
+
+
 📁 Folder Structure
 
 |-> Controllers/
 >authController.ts
 >whitelistContrller.ts
 >passportContrller.ts
+
+
 |-> Routes/
+
+
 >userrouter
+
+
 |-> Monitor/
->monitor.ts                  # Prometheus metrics logic                    # Redis setup
+
+
+> monitor.ts
+
+                                      
 |-> prisma/
+
+
 |-> config/
+
 > swagger.ts
 > redis.ts
 > security.ts
-> OTPlimit.ts               # Swagger config (WIP)
+> OTPlimit.ts
+              
 |-> artillery-tests/
+
 |-> grafana-dashboards/
+
 |-> postman_collection.json
+
 |-> README.md                 # <- You're here
 
 📸 Screenshots
